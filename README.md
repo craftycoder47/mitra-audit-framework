@@ -1,5 +1,7 @@
 # MITRA Audit Framework
 
+[![tests](https://github.com/craftycoder47/mitra-audit-framework/actions/workflows/tests.yml/badge.svg)](https://github.com/craftycoder47/mitra-audit-framework/actions/workflows/tests.yml)
+
 A small, read-only Python framework for auditing multi-source evidence with a
 **fail-closed** design.
 
@@ -11,7 +13,23 @@ The public portfolio edition is deliberately separated from the private
 production project. It contains no live connections, credentials, databases,
 private endpoints, or execution capability.
 
-## Audit order
+## Architecture
+
+```mermaid
+flowchart LR
+    A[Multi-source evidence] --> B[REAL]
+    B --> C[SYNC]
+    C --> D[STAKEABILITY]
+    D --> E[COSTS]
+    E --> F[DB]
+    F --> G{Audit result}
+    G --> H[PASS]
+    G --> I[PARTIAL]
+    G --> J[FAILED]
+    G --> K[UNPROVEN]
+```
+
+The stages are evaluated in a fixed order:
 
 ```text
 REAL -> SYNC -> STAKEABILITY -> COSTS -> DB
@@ -45,6 +63,17 @@ uncertainty an explicit result.
 That pattern is useful for price feeds, market-data monitoring, e-commerce
 comparison, inventory aggregation, property feeds, telemetry and API-health
 checks.
+
+## What this project demonstrates
+
+- Python package design using only the standard library at runtime
+- deterministic, explainable audit logic
+- defensive handling of missing and contradictory evidence
+- multi-source freshness and synchronisation checks
+- separation between observation and executability claims
+- unit testing and regression protection
+- automated CI across multiple Python versions
+- secure separation between public portfolio code and private infrastructure
 
 ## Anonymised evidence window
 
@@ -90,16 +119,22 @@ PYTHONPATH=src python -m unittest discover -s tests -v
 
 The test suite covers margin reconstruction, event mismatch, hard staleness,
 missing timing evidence, database disagreement and fail-closed stakeability.
+GitHub Actions runs the suite automatically on pushes and pull requests to
+`main` across Python 3.10, 3.12 and 3.13.
 
 ## Repository structure
 
 ```text
-mitra-audit-framework-public/
+mitra-audit-framework/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
 ├── README.md
 ├── SECURITY.md
 ├── pyproject.toml
 ├── docs/
-│   └── audit-model.md
+│   ├── audit-model.md
+│   └── cv-project-entry.md
 ├── examples/
 │   └── synthetic_three_way.json
 ├── src/
@@ -116,6 +151,11 @@ mitra-audit-framework-public/
 This public edition is intentionally **read-only and disconnected**. It does not
 place transactions, connect to private infrastructure, or claim that a
 mathematical opportunity is executable.
+
+## Portfolio use
+
+A recruiter-ready project summary is included in
+[`docs/cv-project-entry.md`](docs/cv-project-entry.md).
 
 ## Status
 
