@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mitra-audit-framework"
+version = "0.1.0"
+description = "Fail-closed, read-only audit utilities for multi-source data evidence."
+requires-python = ">=3.10"
+
+[project.scripts]
+mitra-audit = "mitra_audit.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
