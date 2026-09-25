@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite*
+.env
+.env.*
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+.DS_Store
